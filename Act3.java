@@ -86,8 +86,17 @@ public class Act3 extends JFrame {
                 if (absences < 0) {
                     throw new NumberFormatException();
                 }
+                
+                if (absences > 31) {
+                    resultLabel.setText("Error: Number of absences cannot exceed 30 days.");
+                    return;
+                }
 
                 DaysAbsent selectedEmployee = employees[selectedIndex];
+                double deduction = absences * (selectedEmployee.getSalary() / 21);
+                double salaryAfterAbsence = selectedEmployee.getSalary() - deduction;
+                double totalWelfare = PhilHealthDeduction.deduction() + SSSDeduction.deduction();
+                
                 StringBuilder result = new StringBuilder();
                 result.append("<html>== EMPLOYEE ==<br>");
                 result.append("Name: ").append(selectedEmployee.getName()).append("<br>");
@@ -96,12 +105,13 @@ public class Act3 extends JFrame {
                 result.append("<br>== DEDUCTIONS ==<br>");
                 result.append("Days Absent: ").append(absences).append("<br>");
                 result.append("Salary per day: ").append(String.format("%.2f", selectedEmployee.getSalary() / 21)).append("<br>");
-                
-                double deduction = absences * (selectedEmployee.getSalary() / 21);
                 result.append("Deduction: ").append(String.format("%.2f", deduction)).append("<br>");
                 
-                double salaryAfterAbsence = selectedEmployee.getSalary() - deduction;
-                double totalWelfare = PhilHealthDeduction.deduction() + SSSDeduction.deduction();
+                if (salaryAfterAbsence <= 0) {
+                    result.append("<br>Net Salary: 0.00 (No salary due to excessive absences)</html>");
+                    resultLabel.setText(result.toString());
+                    return;
+                }
                 
                 if (salaryAfterAbsence < totalWelfare) {
                     result.append("<br>Not enough money to pay for welfare<br>");

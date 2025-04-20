@@ -1,3 +1,5 @@
+// make sure act2 is same as act3 with few differences
+
 import javax.swing.*;
 import java.awt.*;
 
