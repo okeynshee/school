@@ -146,9 +146,7 @@ public class BasketballSabermetrics {
 
         // Add result image label (below the stats, initially hidden)
         resultImageLabel = new JLabel();
-        resultImageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        // Set the bounds of the JLabel (adjust as needed)
-        resultImageLabel.setBounds(100, 0, 400, 300);
+        resultImageLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         resultImageLabel.setVisible(false); // Hidden until calculation
         resultContentPanel.add(resultImageLabel);
 
