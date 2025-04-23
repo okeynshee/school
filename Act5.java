@@ -1,5 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class Act5 extends JFrame {
     public Act5() {
@@ -8,52 +9,57 @@ public class Act5 extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400, 500);
         setResizable(false);
-        getContentPane().setBackground(new Color(245, 245, 245));
+        getContentPane().setBackground(new Color(255, 255, 255));
 
         // Create a main panel with padding
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        mainPanel.setBackground(new Color(245, 245, 245));
+        mainPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
+        mainPanel.setBackground(new Color(255, 255, 255));
 
         // --- GUI Components ---
         // Title label
         JLabel title = new JLabel("Car Information");
-        title.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        title.setFont(new Font("SF Pro Display", Font.PLAIN, 24));
         title.setAlignmentX(Component.LEFT_ALIGNMENT);
-        title.setForeground(new Color(51, 51, 51));
+        title.setForeground(new Color(0, 0, 0));
+        title.setBorder(new EmptyBorder(0, 0, 20, 0));
 
         // Car selection label
-        JLabel label = new JLabel("Select a car brand:");
-        label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        JLabel label = new JLabel("Select a car brand");
+        label.setFont(new Font("SF Pro Text", Font.PLAIN, 14));
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        label.setForeground(new Color(51, 51, 51));
+        label.setForeground(new Color(100, 100, 100));
+        label.setBorder(new EmptyBorder(0, 0, 8, 0));
 
         // Car combo box
         String[] cars = {"Toyota", "Hyundai", "Tesla"};
         JComboBox<String> carComboBox = new JComboBox<>(cars);
-        carComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        carComboBox.setMaximumSize(new Dimension(300, 35));
+        carComboBox.setFont(new Font("SF Pro Text", Font.PLAIN, 14));
+        carComboBox.setMaximumSize(new Dimension(300, 40));
         carComboBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         carComboBox.setBackground(Color.WHITE);
-        carComboBox.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
+        carComboBox.setBorder(new EmptyBorder(10, 15, 10, 15));
 
         // Tesla type selection (initially hidden)
         JPanel teslaPanel = new JPanel();
         teslaPanel.setLayout(new BoxLayout(teslaPanel, BoxLayout.Y_AXIS));
         teslaPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         teslaPanel.setVisible(false);
+        teslaPanel.setBackground(new Color(255, 255, 255));
 
-        JLabel teslaLabel = new JLabel("Select Tesla type:");
-        teslaLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        teslaLabel.setForeground(new Color(51, 51, 51));
+        JLabel teslaLabel = new JLabel("Select Tesla type");
+        teslaLabel.setFont(new Font("SF Pro Text", Font.PLAIN, 14));
+        teslaLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        teslaLabel.setForeground(new Color(100, 100, 100));
+        teslaLabel.setBorder(new EmptyBorder(0, 0, 8, 0));
 
         String[] teslaTypes = {"Hybrid", "Electric"};
         JComboBox<String> teslaTypeComboBox = new JComboBox<>(teslaTypes);
-        teslaTypeComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        teslaTypeComboBox.setMaximumSize(new Dimension(300, 35));
+        teslaTypeComboBox.setFont(new Font("SF Pro Text", Font.PLAIN, 14));
+        teslaTypeComboBox.setMaximumSize(new Dimension(300, 40));
         teslaTypeComboBox.setBackground(Color.WHITE);
-        teslaTypeComboBox.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
+        teslaTypeComboBox.setBorder(new EmptyBorder(10, 15, 10, 15));
 
         teslaPanel.add(teslaLabel);
         teslaPanel.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -61,19 +67,22 @@ public class Act5 extends JFrame {
 
         // Show info button
         JButton showButton = new JButton("Show Info");
-        showButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        showButton.setMaximumSize(new Dimension(300, 35));
+        showButton.setFont(new Font("SF Pro Text", Font.PLAIN, 14));
+        showButton.setMaximumSize(new Dimension(300, 40));
         showButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        showButton.setBackground(new Color(0, 120, 212));
+        showButton.setBackground(new Color(0, 122, 255));
         showButton.setForeground(Color.WHITE);
         showButton.setFocusPainted(false);
         showButton.setBorderPainted(false);
+        showButton.setBorder(new EmptyBorder(10, 20, 10, 20));
+        showButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Result label
         JLabel resultLabel = new JLabel("");
-        resultLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        resultLabel.setFont(new Font("SF Pro Text", Font.PLAIN, 14));
         resultLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        resultLabel.setForeground(new Color(51, 51, 51));
+        resultLabel.setForeground(new Color(0, 0, 0));
+        resultLabel.setBorder(new EmptyBorder(20, 0, 0, 0));
 
         // --- Event Listeners ---
         carComboBox.addActionListener(_ -> {
@@ -113,13 +122,12 @@ public class Act5 extends JFrame {
 
         // --- Add Components to the Panel ---
         mainPanel.add(title);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         mainPanel.add(label);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         mainPanel.add(carComboBox);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         mainPanel.add(teslaPanel);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         mainPanel.add(showButton);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         mainPanel.add(resultLabel);

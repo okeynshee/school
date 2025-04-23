@@ -63,7 +63,10 @@ public class Act3 extends JFrame {
         absencesField.setMaximumSize(new Dimension(300, 40));
         absencesField.setAlignmentX(Component.LEFT_ALIGNMENT);
         absencesField.setBackground(Color.WHITE);
-        absencesField.setBorder(new EmptyBorder(10, 15, 10, 15));
+        absencesField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+            BorderFactory.createEmptyBorder(10, 15, 10, 15)
+        ));
 
         // Calculate button
         JButton calculateButton = new JButton("Calculate Salary");
