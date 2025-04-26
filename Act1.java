@@ -4,7 +4,8 @@ import javax.swing.border.EmptyBorder;
 
 // Act1 *is* the JFrame window now
 public class Act1 extends JFrame {
-
+    private JTextArea infoText;  // Add field declaration
+    
     // Constructor: Sets up the GUI when an Act1 object is created
     public Act1() {
         // --- Window Setup ---
@@ -66,11 +67,18 @@ public class Act1 extends JFrame {
         // --- Button Action Listener ---
         showButton.addActionListener(_ -> {
             String selectedAnimal = (String) animalComboBox.getSelectedItem();
-            switch (selectedAnimal) {
-                case "Dog" -> resultLabel.setText("You chose a dog: AW AW");
-                case "Chicken" -> resultLabel.setText("You chose a chicken: TITILAOK");
-                case "Cat" -> resultLabel.setText("You chose a cat: MEOW MEOW");
-                default -> resultLabel.setText("");
+            Animal animal = switch (selectedAnimal) {
+                case "Dog" -> new Dog();
+                case "Chicken" -> new Chicken();
+                case "Cat" -> new Cat();
+                default -> new Animal();
+            };
+            animal.getSound();
+            resultLabel.setText(animal.getSound());
+            
+            // Update the information in UI's leftPanel
+            if (infoText != null) {
+                infoText.setText("Animal Sound Information:\n\n" + animal.getSound());
             }
         });
 
@@ -94,36 +102,37 @@ public class Act1 extends JFrame {
     // Removed the uiAct1() method as its logic is now in the constructor.
     // Removed the main() method as this class is intended to be launched by UI.java.
     // The console interaction logic is removed.
+    // Method to set the reference to UI's infoText
+    public void setInfoText(JTextArea infoText) {
+        this.infoText = infoText;
+    }
 }
 
 // The Animal classes remain unchanged, but note they are NOT used by the GUI part above.
 // The GUI uses hardcoded strings for sounds. These classes were only used by the removed console part.
 class Animal {
-    public void sound() {
-        System.out.println("The animal makes a sound");
+    protected String getSound() {
+        return "The animal makes a sound";
     }
 }
 
 class Cat extends Animal {
-    @Override // Good practice to add Override annotation
-    public void sound() {
-        System.out.println("You chose a cat");
-        System.out.println("MEOW MEOW");
+    @Override
+    protected String getSound() {
+        return "You chose a cat: MEOW MEOW";
     }
 }
 
 class Chicken extends Animal {
     @Override
-    public void sound() {
-        System.out.println("You chose a chicken");
-        System.out.println("TITILAOK");
+    protected String getSound() {
+        return "You chose a chicken: TITILAOK";
     }
 }
 
 class Dog extends Animal {
     @Override
-    public void sound() {
-        System.out.println("You chose a dog");
-        System.out.println("AW AW");
+    protected String getSound() {
+        return "You chose a dog: AW AW";
     }
 }

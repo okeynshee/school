@@ -1,10 +1,9 @@
-// make sure act2 is same as act3 with few differences
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class Act2 extends JFrame {
+    private JTextArea infoText;  // Add field declaration
     private final DaysAbsent[] employees = {
         new DaysAbsent("Rahma Sheikh", "Senior Software Engineer", 15000.00),
         new DaysAbsent("Brenn Merin", "Software Engineer", 20000.00),
@@ -100,29 +99,43 @@ public class Act2 extends JFrame {
                 }
 
                 DaysAbsent selectedEmployee = employees[selectedIndex];
+                
+                // Calculate deductions and net salary
+                double salaryPerDay = selectedEmployee.getSalary() / 21;
+                double deduction = absences * salaryPerDay;
+                double netSalary = selectedEmployee.getSalary() - deduction - PhilHealthDeduction.deduction() - SSSDeduction.deduction();
+                
+                // Simple result for the main panel
                 StringBuilder result = new StringBuilder();
                 result.append("<html>");
                 result.append("<div style='font-family: SF Pro Text;'>");
-                result.append("<div style='margin-bottom: 8px;'>== EMPLOYEE ==</div>");
-                result.append("<div style='margin-bottom: 8px;'>Name: ").append(selectedEmployee.getName()).append("</div>");
-                result.append("<div style='margin-bottom: 8px;'>Position: ").append(selectedEmployee.getPosition()).append("</div>");
-                result.append("<div style='margin-bottom: 8px;'>Salary: ").append(String.format("%.2f", selectedEmployee.getSalary())).append("</div>");
-                result.append("<div style='margin-bottom: 8px;'>== DEDUCTIONS ==</div>");
-                result.append("<div style='margin-bottom: 8px;'>Days Absent: ").append(absences).append("</div>");
-                result.append("<div style='margin-bottom: 8px;'>Salary per day: ").append(String.format("%.2f", selectedEmployee.getSalary() / 21)).append("</div>");
-                
-                double deduction = absences * (selectedEmployee.getSalary() / 21);
-                result.append("<div style='margin-bottom: 8px;'>Deduction: ").append(String.format("%.2f", deduction)).append("</div>");
-                result.append("<div style='margin-bottom: 8px;'>Philhealth: 100.00</div>");
-                result.append("<div style='margin-bottom: 8px;'>SSS: 700.00</div>");
-                
-                double netSalary = selectedEmployee.getSalary() - deduction - PhilHealthDeduction.deduction() - SSSDeduction.deduction();
-                result.append("<div>Net Salary: ").append(String.format("%.2f", netSalary)).append("</div>");
+                result.append("Net Salary for ").append(selectedEmployee.getName());
+                result.append(": ").append(String.format("%.2f", netSalary));
                 result.append("</div></html>");
-                
                 resultLabel.setText(result.toString());
+
+                // Detailed information for the left panel
+                if (infoText != null) {
+                    StringBuilder infoBuilder = new StringBuilder();
+                    infoBuilder.append("== EMPLOYEE ==\n");
+                    infoBuilder.append("Name: ").append(selectedEmployee.getName()).append("\n");
+                    infoBuilder.append("Position: ").append(selectedEmployee.getPosition()).append("\n");
+                    infoBuilder.append("Base Salary: ").append(String.format("%.2f", selectedEmployee.getSalary())).append("\n\n");
+                    infoBuilder.append("== DEDUCTIONS ==\n");
+                    infoBuilder.append("Days Absent: ").append(absences).append("\n");
+                    infoBuilder.append("Salary per day: ").append(String.format("%.2f", salaryPerDay)).append("\n");
+                    infoBuilder.append("Absence Deduction: ").append(String.format("%.2f", deduction)).append("\n");
+                    infoBuilder.append("Philhealth: 100.00\n");
+                    infoBuilder.append("SSS: 700.00\n\n");
+                    infoBuilder.append("== NET SALARY ==\n");
+                    infoBuilder.append(String.format("%.2f", netSalary));
+                    infoText.setText(infoBuilder.toString());
+                }
             } catch (NumberFormatException ex) {
-                resultLabel.setText("Please enter a valid number of absences (non-negative integer)");
+                resultLabel.setText("Please enter a valid number of absences");
+                if (infoText != null) {
+                    infoText.setText("Error: Please enter a valid number of absences (non-negative integer)");
+                }
             }
         });
 
@@ -181,5 +194,10 @@ public class Act2 extends JFrame {
         public static double deduction() {
             return 700.00;
         }
+    }
+
+    // Add method to set the reference to UI's infoText
+    public void setInfoText(JTextArea infoText) {
+        this.infoText = infoText;
     }
 }
